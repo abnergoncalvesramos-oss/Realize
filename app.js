@@ -41,3 +41,7 @@ function calc(){let b=Number($('#simBuy').value)||0,c=Number($('#simCosts').valu
 $('#calcBtn').addEventListener('click',calc);
 function renderRanking(){let list=[...demo].sort((a,b)=>b.score-a.score);$('#rankingList').innerHTML=list.map((o,i)=>`<div class="ranking-row"><div class="ranking-num">${i+1}</div><div><b>${o.title}</b><small>${o.city} • ${money(o.price)}</small></div><div class="score">${o.score}</div></div>`).join('')}
 function renderDecision(){if(!selected){$('#decisionTitle').textContent='Aguardando oportunidade';$('#decisionText').textContent='Selecione um ativo e percorra as fases.';$('#decisionScore').textContent='--';return}$('#decisionTitle').textContent=selected.score>=70?'Prosseguir para diligência real':selected.score>=55?'Aguardar validações':'Descartar na triagem';$('#decisionText').textContent='Recomendação demonstrativa baseada em preço, risco e potencial. Não substitui diligência jurídica ou financeira.';$('#decisionScore').textContent=selected.score}
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Realize — Inteligência de Oportunidades",
+  "short_name": "Realize",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#020914",
+  "theme_color": "#020914",
+  "description": "Radar de oportunidades para encontrar, investigar, validar, analisar, simular, ranquear e decidir.",
+  "icons": []
+}

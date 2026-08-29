@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+  <meta name="theme-color" content="#020914" />
+  <title>Realize</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <section id="loginScreen" class="screen login-screen active" aria-label="Login do Realize">
+      <div class="login-hero" aria-hidden="true">
+        <div class="radar-spinner"><span>PROCURANDO • PROCURANDO • PROCURANDO •</span></div>
+      </div>
+      <div class="login-card-wrap">
+        <form id="loginForm" class="login-card" novalidate>
+          <label><span>E-mail</span><input id="email" type="email" inputmode="email" autocomplete="email" placeholder="E-mail" /></label>
+          <label><span>Senha</span><input id="password" type="password" autocomplete="current-password" placeholder="Senha" /></label>
+          <button id="enterBtn" class="primary" type="submit">ENTRAR</button>
+          <div class="divider"><i></i><span>ou</span><i></i></div>
+          <button class="secondary" type="button" id="createBtn">CRIAR CONTA</button>
+          <button class="link-btn" type="button" id="forgotBtn">Esqueceu sua senha?</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="appScreen" class="screen app-screen" aria-label="Aplicativo Realize">
+      <aside class="sidebar" aria-label="Navegação principal">
+        <button class="brand-mini" data-route="encontrar" aria-label="Início">R</button>
+        <nav>
+          <button class="nav-btn active" data-route="encontrar" aria-label="Encontrar"><b>⌕</b><span>Encontrar</span></button>
+          <button class="nav-btn" data-route="investigar" aria-label="Investigar"><b>▤</b><span>Investigar</span></button>
+          <button class="nav-btn" data-route="validar" aria-label="Validar"><b>◇</b><span>Validar</span></button>
+          <button class="nav-btn" data-route="analisar" aria-label="Analisar"><b>▥</b><span>Analisar</span></button>
+          <button class="nav-btn" data-route="simular" aria-label="Simular"><b>▦</b><span>Simular</span></button>
+          <button class="nav-btn" data-route="ranquear" aria-label="Ranquear"><b>♜</b><span>Ranquear</span></button>
+          <button class="nav-btn" data-route="decidir" aria-label="Decidir"><b>◎</b><span>Decidir</span></button>
+        </nav>
+        <button id="logoutBtn" class="logout" aria-label="Sair">↩<span>Sair</span></button>
+      </aside>
+
+      <main class="content">
+        <header class="topbar">
+          <div><small id="phaseKicker">FASE 01</small><h1 id="phaseTitle">Encontrar</h1></div>
+          <div class="status-pill">RADAR ATIVO</div>
+        </header>
+
+        <section class="route active" data-page="encontrar">
+          <div class="search-panel card">
+            <div class="field-grid">
+              <label>Categoria<select id="category"><option value="todos">Todos</option><option value="imovel">Imóveis</option><option value="carro">Carros</option><option value="moto">Motos</option><option value="barco">Barcos</option><option value="terreno">Terrenos</option></select></label>
+              <label>Localização<input id="location" value="Campinas" /></label>
+              <label>Preço máximo<input id="maxPrice" inputmode="numeric" placeholder="Ex.: 500000" /></label>
+            </div>
+            <button id="searchBtn" class="primary">BUSCAR OPORTUNIDADES</button>
+            <p class="note">Modo de demonstração: resultados internos para testar todo o fluxo. Nenhum item abaixo é apresentado como anúncio real.</p>
+          </div>
+          <div id="results" class="results-grid"></div>
+        </section>
+
+        <section class="route" data-page="investigar">
+          <div class="card"><h2>Dossiê da oportunidade</h2><p id="investigateSummary">Escolha uma oportunidade em Encontrar para iniciar.</p></div>
+          <div id="checklist" class="check-grid"></div>
+          <button class="next-btn" data-next="validar">IR PARA VALIDAR →</button>
+        </section>
+
+        <section class="route" data-page="validar">
+          <div class="card"><h2>Matriz de risco</h2><div id="riskGrid" class="metric-grid"></div></div>
+          <button class="next-btn" data-next="analisar">IR PARA ANALISAR →</button>
+        </section>
+
+        <section class="route" data-page="analisar">
+          <div class="metric-grid" id="analysisMetrics"></div>
+          <div class="card"><h2>Leitura do Realize</h2><p id="analysisText">Selecione uma oportunidade para analisar.</p></div>
+          <button class="next-btn" data-next="simular">IR PARA SIMULAR →</button>
+        </section>
+
+        <section class="route" data-page="simular">
+          <div class="card simulator">
+            <h2>Simulador financeiro</h2>
+            <div class="field-grid">
+              <label>Compra<input id="simBuy" type="number" /></label>
+              <label>Custos<input id="simCosts" type="number" value="25000" /></label>
+              <label>Venda estimada<input id="simSell" type="number" /></label>
+            </div>
+            <button id="calcBtn" class="primary">CALCULAR</button>
+          </div>
+          <div class="metric-grid" id="simMetrics"></div>
+          <button class="next-btn" data-next="ranquear">IR PARA RANQUEAR →</button>
+        </section>
+
+        <section class="route" data-page="ranquear">
+          <div class="card"><h2>Ranking</h2><p>Oportunidades organizadas por relação entre desconto, risco e potencial.</p></div>
+          <div id="rankingList" class="ranking-list"></div>
+          <button class="next-btn" data-next="decidir">IR PARA DECIDIR →</button>
+        </section>
+
+        <section class="route" data-page="decidir">
+          <div class="decision card">
+            <div><small>RECOMENDAÇÃO</small><h2 id="decisionTitle">Aguardando oportunidade</h2><p id="decisionText">Selecione um ativo e percorra as fases.</p></div>
+            <div id="decisionScore" class="score-ring">--</div>
+          </div>
+          <div class="decision-actions">
+            <button class="danger">DESCARTAR</button><button class="secondary">AGUARDAR</button><button class="primary">PROSSEGUIR</button>
+          </div>
+        </section>
+      </main>
+    </section>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>

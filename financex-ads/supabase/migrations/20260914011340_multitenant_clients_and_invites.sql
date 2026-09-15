@@ -1,5 +1,5 @@
 -- Multi-tenant: uma agência (você) atendendo N clientes.
--- Rodar depois de 0001_init.sql
+-- Rodar depois de 20260914011322_init_hub_schema.sql
 
 -- ---------------------------------------------------------------
 -- clients — cada empresa que você atende
@@ -61,7 +61,9 @@ create index invites_token_idx on connect_invites (token);
 -- ---------------------------------------------------------------
 -- Visão de carteira: quantas contas e posts por cliente
 -- ---------------------------------------------------------------
-create view client_overview as
+-- security_invoker: a view respeita o RLS de quem consulta, nao o do dono.
+create view client_overview
+  with (security_invoker = true) as
 select
   c.id,
   c.owner_id,

@@ -5,7 +5,7 @@ Auth + cofre de tokens + publicação no Instagram de ponta a ponta.
 ## O que já está pronto
 
 ```
-supabase/migrations/0001_init.sql   schema, RLS e a função claim_targets
+supabase/migrations/20260914011322_init_hub_schema.sql   schema, RLS e a função claim_targets
 lib/crypto.ts                       AES-256-GCM para os tokens
 lib/instagram.ts                    OAuth, refresh e publicação
 lib/supabase-server.ts              cliente com sessão (respeita RLS)
@@ -44,7 +44,7 @@ npm i @supabase/supabase-js @supabase/ssr
 cp .env.example .env.local   # preencher
 ```
 
-Migration: cole `supabase/migrations/0001_init.sql` no SQL Editor do Supabase
+Migration: cole `supabase/migrations/20260914011322_init_hub_schema.sql` no SQL Editor do Supabase
 (ou `supabase db push`).
 
 Worker no Render: tipo **Background Worker**, mesmas variáveis de ambiente,

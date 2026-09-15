@@ -3,3 +3,6 @@ dist/
 .next/
 .env
 .env.local
+
+# gerado pelo next build a cada execucao
+next-env.d.ts

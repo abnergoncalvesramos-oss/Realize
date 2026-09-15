@@ -49,24 +49,39 @@ export async function GET(req: NextRequest) {
       if (!client) return back("Cliente não encontrado");
     }
 
-    const { data: account, error: accErr } = await admin
+    // A conta de cliente é única por (client_id, platform, external_id), mas a
+    // conta da própria agência tem client_id null — e null não casa com null no
+    // ON CONFLICT. Cada caso tem o seu índice, então localiza antes de gravar.
+    const busca = admin
       .from("accounts")
-      .upsert(
-        {
-          owner_id,
-          client_id,
-          platform: "instagram",
-          kind: "organic",
-          external_id: profile.user_id,
-          handle: profile.username,
-          avatar_url: profile.profile_picture_url ?? null,
-          status: "connected",
-          last_error: null,
-        },
-        { onConflict: "client_id,platform,external_id" },
-      )
       .select("id")
-      .single();
+      .eq("platform", "instagram")
+      .eq("external_id", profile.user_id);
+
+    const { data: existente } = client_id
+      ? await busca.eq("client_id", client_id).maybeSingle()
+      : await busca.is("client_id", null).eq("owner_id", owner_id).maybeSingle();
+
+    const dados = {
+      handle: profile.username,
+      avatar_url: profile.profile_picture_url ?? null,
+      status: "connected" as const,
+      last_error: null,
+    };
+
+    const { data: account, error: accErr } = existente
+      ? await admin.from("accounts")
+          .update(dados).eq("id", existente.id).select("id").single()
+      : await admin.from("accounts")
+          .insert({
+            owner_id,
+            client_id,
+            platform: "instagram",
+            kind: "organic",
+            external_id: profile.user_id,
+            ...dados,
+          })
+          .select("id").single();
     if (accErr) throw accErr;
 
     const { error: credErr } = await admin.from("credentials").upsert({

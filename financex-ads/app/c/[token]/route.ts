@@ -10,12 +10,13 @@ import { createAdminClient } from "@/lib/supabase-admin";
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { token: string } },
+  { params }: { params: Promise<{ token: string }> },
 ) {
+  const { token } = await params;
   const admin = createAdminClient();
 
   const { data, error } = await admin.rpc("redeem_invite", {
-    invite_token: params.token,
+    invite_token: token,
   });
 
   const invite = data?.[0];

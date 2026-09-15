@@ -5,7 +5,7 @@ const usd = (n: number) =>
   new Intl.NumberFormat("pt-BR", { style: "currency", currency: "USD" }).format(n);
 
 export default async function Painel() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 

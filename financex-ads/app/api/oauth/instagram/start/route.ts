@@ -7,7 +7,7 @@ import { createClient } from "@/lib/supabase-server";
 // ?client_id=<uuid> amarra a conta a um cliente da carteira.
 // Sem o parâmetro, a conta fica na própria agência.
 export async function GET(req: Request) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.redirect(new URL("/login", process.env.APP_URL!));
 

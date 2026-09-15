@@ -6,14 +6,15 @@ import { createAdminClient } from "@/lib/supabase-admin";
 // Grava o clique, planta o cookie de visitante e redireciona.
 export async function GET(
   req: NextRequest,
-  { params }: { params: { slug: string } },
+  { params }: { params: Promise<{ slug: string }> },
 ) {
+  const { slug } = await params;
   const admin = createAdminClient();
 
   const { data: link } = await admin
     .from("ref_links")
     .select("id, affiliate_id, destination")
-    .eq("slug", params.slug)
+    .eq("slug", slug)
     .maybeSingle();
 
   // Link inexistente vai pro site normal. Nunca mostre erro pro comprador.

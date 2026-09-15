@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase-server";
 
 export default async function Contas() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
@@ -13,7 +13,13 @@ export default async function Contas() {
     .order("created_at", { ascending: false });
 
   const used = accounts?.length ?? 0;
-  const limit = me?.plans?.max_accounts ?? null;
+  // A relação affiliates.plan_code -> plans.code é many-to-one, então o PostgREST
+  // devolve um objeto. Sem os tipos gerados do banco o supabase-js infere array;
+  // normaliza os dois casos.
+  const plan = (Array.isArray(me?.plans) ? me?.plans[0] : me?.plans) as
+    | { name: string; max_accounts: number | null }
+    | undefined;
+  const limit = plan?.max_accounts ?? null;
   const cheio = limit !== null && used >= limit;
 
   return (
@@ -22,7 +28,7 @@ export default async function Contas() {
         <h1>Suas contas</h1>
         <p className="lede">
           {used} conectada{used === 1 ? "" : "s"}
-          {limit !== null ? ` de ${limit} no plano ${me?.plans?.name}` : " · sem limite no seu plano"}
+          {limit !== null ? ` de ${limit} no plano ${plan?.name}` : " · sem limite no seu plano"}
         </p>
 
         {cheio

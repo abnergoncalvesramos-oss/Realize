@@ -1,9 +1,9 @@
 // Worker da fila. Roda como Background Worker no Render.
 // Start: node --loader tsx worker/publish.ts   (ou compile para JS antes)
 
-import { createAdminClient } from "../lib/supabase-admin";
-import { encrypt, decrypt } from "../lib/crypto";
-import * as ig from "../lib/instagram";
+import { createAdminClient } from "../lib/supabase-admin.js";
+import { encrypt, decrypt } from "../lib/crypto.js";
+import * as ig from "../lib/instagram.js";
 
 const db = createAdminClient();
 

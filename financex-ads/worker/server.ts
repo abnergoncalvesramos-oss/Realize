@@ -6,7 +6,7 @@
 // POST /tick   -> força uma rodada (útil para cron externo)
 
 import http from "node:http";
-import { tick, queueStats } from "./publish";
+import { tick, queueStats } from "./publish.js";
 
 const PORT = Number(process.env.PORT) || 10000;
 const TICK_MS = Number(process.env.TICK_MS) || 30_000;
